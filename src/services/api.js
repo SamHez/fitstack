@@ -11,15 +11,16 @@ const API_HEADERS = {
 
 /**
  * fetchExercises
- * Fetches a list of exercises with names and descriptions. 
- * endpoint: exerciseinfo/
- * language=2 (English)
+ * Fetches names and IDs from exerciseinfo.
+ * We fetch a larger batch (100+) to ensure English results are included.
  */
 export async function fetchExercises() {
     try {
         console.log('🔄 Fetching exercises from WGER...');
-        // Fetch verified English exercises using exerciseinfo/ for names
-        const response = await fetch(`${WGER_BASE_URL}/exerciseinfo/?language=2&limit=50`, {
+
+        // Use exerciseinfo which contains names. 
+        // We use language=2 but fetch more items as the API filter can be loose.
+        const response = await fetch(`${WGER_BASE_URL}/exerciseinfo/?language=2&limit=200`, {
             headers: API_HEADERS,
         })
 
@@ -33,14 +34,31 @@ export async function fetchExercises() {
             throw new Error('Invalid response format from WGER API')
         }
 
-        // Defensive filtering: Ensure each item has a name before sorting
-        const validResults = data.results.filter(item => item && typeof item.name === 'string');
+        // 1. Filter for items that actually have a name string
+        // 2. Prioritize items where language is 2 (English)
+        const englishItems = data.results.filter(item =>
+            item &&
+            typeof item.name === 'string' &&
+            item.name.trim().length > 0 &&
+            item.language === 2
+        );
 
-        // Sort alphabetically
-        const sortedResults = validResults.sort((a, b) => a.name.localeCompare(b.name));
+        // Fallback: If no English items found in the batch, take any valid named items
+        const resultsToUse = englishItems.length > 0
+            ? englishItems
+            : data.results.filter(item => item && typeof item.name === 'string' && item.name.trim().length > 0);
 
-        console.log(`✅ ${sortedResults.length} exercises fetched successfully`);
-        return sortedResults
+        // Sort alphabetically with a very safe compare
+        const sortedResults = resultsToUse.sort((a, b) => {
+            const nameA = a.name || "";
+            const nameB = b.name || "";
+            return nameA.localeCompare(nameB);
+        });
+
+        console.log(`✅ ${sortedResults.length} exercises ready (from ${data.results.length} raw results)`);
+
+        // Final sanity check: if still 0, at least don't crash the UI
+        return sortedResults;
     } catch (error) {
         console.error('❌ Failed to fetch exercises:', error);
         throw error
