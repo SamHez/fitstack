@@ -6,30 +6,48 @@ import History from './pages/History'
 import { useState, useEffect } from 'react'
 
 function App() {
-    // Simple "manual router" for ALX student level
-    // This allows checking the UI of different pages without a router library yet
     const [currentPath, setCurrentPath] = useState(window.location.pathname)
+    // Central state for all workouts
+    const [workouts, setWorkouts] = useState([])
+
+    // Load workouts from localStorage on mount
+    useEffect(() => {
+        const savedWorkouts = localStorage.getItem('fitstack_workouts')
+        if (savedWorkouts) {
+            try {
+                setWorkouts(JSON.parse(savedWorkouts))
+            } catch (e) {
+                console.error("Failed to parse saved workouts:", e)
+            }
+        }
+    }, [])
+
+    // Save workouts to localStorage whenever they change
+    useEffect(() => {
+        localStorage.setItem('fitstack_workouts', JSON.stringify(workouts))
+    }, [workouts])
 
     useEffect(() => {
         const handleLocationChange = () => {
             setCurrentPath(window.location.pathname)
         }
-
-        // Direct clicks on <a> tags in our Navbar with hrefs like "/history"
-        // will trigger a page reload which resets state, but we can handle it
-        // for a simple static UI demo.
         window.addEventListener('popstate', handleLocationChange)
         return () => window.removeEventListener('popstate', handleLocationChange)
     }, [])
 
+    const addWorkout = (newWorkout) => {
+        // Add new workout to the beginning of the list
+        setWorkouts([newWorkout, ...workouts])
+    }
+
     const renderPage = () => {
         switch (currentPath) {
             case '/add-workout':
-                return <AddWorkout />
+                return <AddWorkout addWorkout={addWorkout} />
             case '/history':
-                return <History />
+                return <History workouts={workouts} />
             default:
-                return <Home />
+                return <Home workouts={workouts} />
         }
     }
 
