@@ -2,38 +2,34 @@
 
 function Navbar() {
     return (
-        <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-white/30 shadow-lg">
-            <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-                {/* Logo */}
-                <div className="flex items-center gap-3">
-                    <img
-                        src="/fitstack-logo.png"
-                        alt="FitStack Logo"
-                        className="h-10 w-auto object-contain"
-                    />
-                    <span className="text-xl font-bold text-gray-800 tracking-tight">
-                        Fit<span className="text-green-600">Stack</span>
-                    </span>
-                </div>
+        <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-white/10 shadow-sm">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between items-center h-16">
+                    {/* Logo */}
+                    <div className="flex-shrink-0 flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+                        <img
+                            src="/fitstack-logo.png"
+                            alt="FitStack Logo"
+                            className="h-8 w-auto"
+                        />
+                        <span className="text-xl font-bold text-gray-900 tracking-tight hidden sm:block">
+                            Fit<span className="text-green-600">Stack</span>
+                        </span>
+                    </div>
 
-                {/* Nav Links */}
-                <ul className="flex items-center gap-6 text-sm font-medium text-gray-600">
-                    <li>
-                        <a href="/" className="hover:text-green-600 transition-colors duration-200">
+                    {/* Nav Links */}
+                    <div className="flex items-center gap-4 sm:gap-8">
+                        <a href="/" className="text-sm font-semibold text-gray-700 hover:text-green-600 transition-colors">
                             Home
                         </a>
-                    </li>
-                    <li>
-                        <a href="/add-workout" className="hover:text-green-600 transition-colors duration-200">
+                        <a href="/add-workout" className="text-sm font-semibold text-gray-700 hover:text-green-600 transition-colors">
                             Add Workout
                         </a>
-                    </li>
-                    <li>
-                        <a href="/history" className="hover:text-green-600 transition-colors duration-200">
+                        <a href="/history" className="text-sm font-semibold text-gray-700 hover:text-green-600 transition-colors">
                             History
                         </a>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
         </nav>
     )
