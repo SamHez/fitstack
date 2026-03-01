@@ -17,6 +17,7 @@ const API_HEADERS = {
  */
 export async function fetchExercises() {
     try {
+        console.log('🔄 Fetching exercises from WGER...');
         // Fetch verified English exercises using exerciseinfo/ for names
         const response = await fetch(`${WGER_BASE_URL}/exerciseinfo/?language=2&limit=50`, {
             headers: API_HEADERS,
@@ -27,14 +28,21 @@ export async function fetchExercises() {
         }
 
         const data = await response.json()
-        // Extract results and sort alphabetically for the dropdown
-        // The results array in exerciseinfo contains objects with a 'name' field
-        const results = data.results.sort((a, b) => a.name.localeCompare(b.name))
 
-        console.log('✅ Exercises fetched successfully from exerciseinfo/')
-        return results
+        if (!data || !data.results) {
+            throw new Error('Invalid response format from WGER API')
+        }
+
+        // Defensive filtering: Ensure each item has a name before sorting
+        const validResults = data.results.filter(item => item && typeof item.name === 'string');
+
+        // Sort alphabetically
+        const sortedResults = validResults.sort((a, b) => a.name.localeCompare(b.name));
+
+        console.log(`✅ ${sortedResults.length} exercises fetched successfully`);
+        return sortedResults
     } catch (error) {
-        console.error('❌ Failed to fetch exercises:', error)
+        console.error('❌ Failed to fetch exercises:', error);
         throw error
     }
 }
