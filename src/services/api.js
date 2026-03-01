@@ -11,13 +11,14 @@ const API_HEADERS = {
 
 /**
  * fetchExercises
- * Fetches a list of exercises. 
- * language=2 (English), status=2 (Verified)
+ * Fetches a list of exercises with names and descriptions. 
+ * endpoint: exerciseinfo/
+ * language=2 (English)
  */
 export async function fetchExercises() {
     try {
-        // Fetch verified English exercises
-        const response = await fetch(`${WGER_BASE_URL}/exercise/?language=2&status=2&limit=50`, {
+        // Fetch verified English exercises using exerciseinfo/ for names
+        const response = await fetch(`${WGER_BASE_URL}/exerciseinfo/?language=2&limit=50`, {
             headers: API_HEADERS,
         })
 
@@ -27,9 +28,10 @@ export async function fetchExercises() {
 
         const data = await response.json()
         // Extract results and sort alphabetically for the dropdown
+        // The results array in exerciseinfo contains objects with a 'name' field
         const results = data.results.sort((a, b) => a.name.localeCompare(b.name))
 
-        console.log('✅ Exercises fetched successfully')
+        console.log('✅ Exercises fetched successfully from exerciseinfo/')
         return results
     } catch (error) {
         console.error('❌ Failed to fetch exercises:', error)
