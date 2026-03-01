@@ -1,14 +1,26 @@
-// WorkoutForm.jsx – UI for logging a workout
+// WorkoutForm.jsx – UI and logic for logging a workout
+import { useState, useEffect } from 'react'
+import { fetchExercises } from '../services/api'
 
 function WorkoutForm() {
-    const exercises = [
-        'Bench Press',
-        'Squats',
-        'Deadlift',
-        'Overhead Press',
-        'Barbell Row',
-        'Dumbbell Lateral Raise',
-    ]
+    const [exercises, setExercises] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+
+    // Fetch exercises from API on mount
+    useEffect(() => {
+        async function loadExercises() {
+            try {
+                const data = await fetchExercises()
+                setExercises(data)
+                setLoading(false)
+            } catch (err) {
+                setError('Failed to load exercises. Please try again.')
+                setLoading(false)
+            }
+        }
+        loadExercises()
+    }, [])
 
     return (
         <div className="backdrop-blur-md bg-white/70 rounded-3xl shadow-xl p-8 border border-white/40 max-w-xl mx-auto">
@@ -27,12 +39,26 @@ function WorkoutForm() {
                     <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
                         Exercise
                     </label>
-                    <select className="w-full bg-white/50 border border-gray-100 rounded-2xl px-5 py-4 text-gray-700 font-bold focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all outline-none appearance-none cursor-pointer">
-                        <option value="" disabled selected>Select an exercise</option>
-                        {exercises.map((ex) => (
-                            <option key={ex} value={ex}>{ex}</option>
-                        ))}
-                    </select>
+                    <div className="relative">
+                        <select
+                            className="w-full bg-white/50 border border-gray-100 rounded-2xl px-5 py-4 text-gray-700 font-bold focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all outline-none appearance-none cursor-pointer disabled:opacity-50"
+                            defaultValue=""
+                            disabled={loading || error}
+                        >
+                            <option value="" disabled>
+                                {loading ? 'Loading exercises...' : error ? 'Error loading data' : 'Select an exercise'}
+                            </option>
+                            {exercises.map((ex) => (
+                                <option key={ex.id} value={ex.name}>{ex.name}</option>
+                            ))}
+                        </select>
+                        <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                    {error && <p className="text-red-500 text-xs mt-2 ml-1 font-medium">{error}</p>}
                 </div>
 
                 {/* Stats Grid */}
@@ -72,7 +98,8 @@ function WorkoutForm() {
                 {/* Submit Button */}
                 <button
                     type="button"
-                    className="w-full py-5 bg-green-600 hover:bg-green-700 text-white font-black rounded-2xl shadow-lg shadow-green-100 transition-all hover:-translate-y-0.5 mt-4"
+                    disabled={loading || error}
+                    className="w-full py-5 bg-green-600 hover:bg-green-700 text-white font-black rounded-2xl shadow-lg shadow-green-100 transition-all hover:-translate-y-0.5 mt-4 disabled:opacity-50"
                 >
                     Save Logged Workout
                 </button>
