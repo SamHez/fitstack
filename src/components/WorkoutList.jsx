@@ -1,10 +1,26 @@
-// WorkoutList.jsx – placeholder (to be implemented in a later week)
+// WorkoutList.jsx – list of static workouts for Week 2
 
-function WorkoutList() {
+import WorkoutCard from './WorkoutCard'
+
+function WorkoutList({ workouts }) {
+    // Use provided workouts or default mock data for now
+    const mockWorkouts = workouts || [
+        { id: 1, exercise: 'Bench Press', date: '2026-03-01', sets: 3, reps: 10, weight: 60 },
+        { id: 2, exercise: 'Squats', date: '2026-02-28', sets: 4, reps: 8, weight: 80 },
+        { id: 3, exercise: 'Deadlift', date: '2026-02-26', sets: 1, reps: 5, weight: 120 },
+    ]
+
     return (
-        <div className="backdrop-blur-md bg-white/70 rounded-xl shadow-lg p-6 border border-white/30">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">Your Workouts</h2>
-            <p className="text-sm text-gray-500">Workout list coming soon…</p>
+        <div className="space-y-4">
+            {mockWorkouts.map((workout) => (
+                <WorkoutCard key={workout.id} workout={workout} />
+            ))}
+
+            {mockWorkouts.length === 0 && (
+                <div className="text-center py-10 text-gray-400 font-medium italic">
+                    No workouts logged yet. Time to get moving!
+                </div>
+            )}
         </div>
     )
 }
