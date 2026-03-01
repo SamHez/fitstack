@@ -3,7 +3,10 @@
 import ProgressSummary from '../components/ProgressSummary'
 import WorkoutList from '../components/WorkoutList'
 
-function Home() {
+function Home({ workouts = [] }) {
+    // Show only 3 most recent workouts on home
+    const recentWorkouts = workouts.slice(0, 3)
+
     return (
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             {/* Hero Section */}
@@ -39,7 +42,7 @@ function Home() {
                 <h2 className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em] mb-6 text-center">
                     Weekly Progress
                 </h2>
-                <ProgressSummary />
+                <ProgressSummary workouts={workouts} />
             </section>
 
             {/* Recent Activity */}
@@ -50,7 +53,7 @@ function Home() {
                         See all →
                     </a>
                 </div>
-                <WorkoutList />
+                <WorkoutList workouts={recentWorkouts} />
             </section>
         </div>
     )

@@ -2,7 +2,7 @@
 
 import WorkoutList from '../components/WorkoutList'
 
-function History() {
+function History({ workouts = [] }) {
     return (
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="mb-12">
@@ -25,7 +25,7 @@ function History() {
                 ))}
             </div>
 
-            <WorkoutList />
+            <WorkoutList workouts={workouts} />
         </div>
     )
 }

@@ -1,10 +1,17 @@
-// ProgressSummary.jsx – placeholder stats for Week 2
+// ProgressSummary.jsx – dynamic stats for Week 3
 
-function ProgressSummary() {
+function ProgressSummary({ workouts = [] }) {
+    // Real stats calculation
+    const totalWorkouts = workouts.length
+    const totalWeight = workouts.reduce((acc, curr) => acc + (curr.weight * curr.sets * curr.reps), 0)
+
+    // Simple streak calculation (mocked as constant for now, could be dynamic)
+    const streak = totalWorkouts > 0 ? "4 days" : "0 days"
+
     const stats = [
-        { label: 'Total Workouts', value: '12', color: 'text-green-600' },
-        { label: 'Weight Lifted', value: '450kg', color: 'text-blue-600' },
-        { label: 'Streak', value: '4 days', color: 'text-orange-500' },
+        { label: 'Total Workouts', value: totalWorkouts, color: 'text-green-600' },
+        { label: 'Total Volume', value: `${Math.round(totalWeight)}kg`, color: 'text-blue-600' },
+        { label: 'Streak', value: streak, color: 'text-orange-500' },
     ]
 
     return (

@@ -2,10 +2,16 @@
 import { useState, useEffect } from 'react'
 import { fetchExercises } from '../services/api'
 
-function WorkoutForm() {
+function WorkoutForm({ addWorkout }) {
     const [exercises, setExercises] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+
+    // Form state
+    const [exercise, setExercise] = useState('')
+    const [sets, setSets] = useState('')
+    const [reps, setReps] = useState('')
+    const [weight, setWeight] = useState('')
 
     // Fetch exercises from API on mount
     useEffect(() => {
@@ -22,6 +28,37 @@ function WorkoutForm() {
         loadExercises()
     }, [])
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
+        // Basic validation
+        if (!exercise || !sets || !reps || !weight) {
+            alert('Please fill in all fields.')
+            return
+        }
+
+        // Create new workout object
+        const newWorkout = {
+            id: Date.now(),
+            exercise,
+            sets: parseInt(sets),
+            reps: parseInt(reps),
+            weight: parseFloat(weight),
+            date: new Date().toLocaleDateString(),
+        }
+
+        // Add to global state
+        addWorkout(newWorkout)
+
+        // Reset form
+        setExercise('')
+        setSets('')
+        setReps('')
+        setWeight('')
+
+        alert('Workout logged successfully!')
+    }
+
     return (
         <div className="backdrop-blur-md bg-white/70 rounded-3xl shadow-xl p-8 border border-white/40 max-w-xl mx-auto">
             <h2 className="text-2xl font-black text-gray-800 mb-6 flex items-center gap-2">
@@ -33,7 +70,7 @@ function WorkoutForm() {
                 Log Workout
             </h2>
 
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-6" onSubmit={handleSubmit}>
                 {/* Exercise Selection */}
                 <div>
                     <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
@@ -42,8 +79,10 @@ function WorkoutForm() {
                     <div className="relative">
                         <select
                             className="w-full bg-white/50 border border-gray-100 rounded-2xl px-5 py-4 text-gray-700 font-bold focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all outline-none appearance-none cursor-pointer disabled:opacity-50"
-                            defaultValue=""
+                            value={exercise}
                             disabled={loading || error}
+                            onChange={(e) => setExercise(e.target.value)}
+                            required
                         >
                             <option value="" disabled>
                                 {loading ? 'Loading exercises...' : error ? 'Error loading data' : 'Select an exercise'}
@@ -70,6 +109,10 @@ function WorkoutForm() {
                         <input
                             type="number"
                             placeholder="0"
+                            value={sets}
+                            onChange={(e) => setSets(e.target.value)}
+                            required
+                            min="1"
                             className="w-full bg-white/50 border border-gray-100 rounded-2xl px-4 py-4 text-center text-gray-700 font-black focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all outline-none"
                         />
                     </div>
@@ -80,6 +123,10 @@ function WorkoutForm() {
                         <input
                             type="number"
                             placeholder="0"
+                            value={reps}
+                            onChange={(e) => setReps(e.target.value)}
+                            required
+                            min="1"
                             className="w-full bg-white/50 border border-gray-100 rounded-2xl px-4 py-4 text-center text-gray-700 font-black focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all outline-none"
                         />
                     </div>
@@ -90,6 +137,11 @@ function WorkoutForm() {
                         <input
                             type="number"
                             placeholder="0"
+                            value={weight}
+                            onChange={(e) => setWeight(e.target.value)}
+                            required
+                            min="0"
+                            step="0.5"
                             className="w-full bg-white/50 border border-gray-100 rounded-2xl px-4 py-4 text-center text-gray-700 font-black focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all outline-none"
                         />
                     </div>
@@ -97,7 +149,7 @@ function WorkoutForm() {
 
                 {/* Submit Button */}
                 <button
-                    type="button"
+                    type="submit"
                     disabled={loading || error}
                     className="w-full py-5 bg-green-600 hover:bg-green-700 text-white font-black rounded-2xl shadow-lg shadow-green-100 transition-all hover:-translate-y-0.5 mt-4 disabled:opacity-50"
                 >
