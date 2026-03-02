@@ -74,7 +74,6 @@ export async function fetchExercises() {
         name,
     }))
 
-    console.log(`✅ ${exercises.length} exercises ready for dropdown`)
     return exercises
 }
 
