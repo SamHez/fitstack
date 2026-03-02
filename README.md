@@ -1,8 +1,8 @@
 # FitStack
 
-<img src="./public/fitstack-logo.png" alt="FitStack Logo" width="100"/>
+<img src="./public/fitstack-logo-bg.png" alt="FitStack Logo" width="300"/>
 
-FitStack is a student-level React + Tailwind CSS project designed as a clean, modern, and simple fitness tracker. It features a subtle "liquid glass" UI effect and provides users with an easy way to log workouts, track progress, and view their history.
+FitStack is a React + Tailwind CSS project designed as a clean, modern, and simple fitness tracker. It provides users with an easy way to log workouts, track progress, and view their history.
 
 ## 🌟 Features
 
