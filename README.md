@@ -4,6 +4,8 @@
 
 FitStack is a React + Tailwind CSS project designed as a clean, modern, and simple fitness tracker. It provides users with an easy way to log workouts, track progress, and view their history.
 
+## Preview Link: https://fitstackapp.netlify.app/
+
 ## 🌟 Features
 
 - **Workout Logging**: Easily log your exercises, sets, reps, and weight.
