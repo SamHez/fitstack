@@ -28,6 +28,8 @@ function WorkoutForm({ addWorkout }) {
         loadExercises()
     }, [])
 
+    const [success, setSuccess] = useState(false)
+
     const handleSubmit = (e) => {
         e.preventDefault()
 
@@ -47,16 +49,19 @@ function WorkoutForm({ addWorkout }) {
             date: new Date().toLocaleDateString(),
         }
 
-        // Add to global state
+        // Add to global state (updates App.jsx state)
         addWorkout(newWorkout)
 
-        // Reset form
-        setExercise('')
-        setSets('')
-        setReps('')
-        setWeight('')
+        // Also save directly to localStorage right now (synchronous)
+        // This guarantees the data is there when the page reloads
+        const existing = JSON.parse(localStorage.getItem('fitstack_workouts') || '[]')
+        localStorage.setItem('fitstack_workouts', JSON.stringify([newWorkout, ...existing]))
 
-        alert('Workout logged successfully!')
+        // Show success briefly, then redirect to home so the user sees the update
+        setSuccess(true)
+        setTimeout(() => {
+            window.location.href = '/'
+        }, 1200)
     }
 
     return (
@@ -157,6 +162,11 @@ function WorkoutForm({ addWorkout }) {
                 </button>
             </form>
 
+            {success && (
+                <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-2xl text-center">
+                    <p className="text-green-700 font-bold text-sm">✅ Workout saved! Redirecting to dashboard...</p>
+                </div>
+            )}
             <p className="text-center text-xs text-gray-400 mt-6 font-medium">
                 Data will be saved to your history.
             </p>

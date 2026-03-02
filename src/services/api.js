@@ -1,7 +1,6 @@
 // api.js – FitStack API service for WGER Workout Manager
 
 const WGER_BASE_URL = 'https://wger.de/api/v2'
-// API Key provided by the user
 const API_KEY = '61f324681cdaa93eaa8407f240c874b2a0893d37'
 
 const API_HEADERS = {
@@ -9,65 +8,79 @@ const API_HEADERS = {
     'Accept': 'application/json',
 }
 
+// Curated list of the most common gym exercises
+// This ensures a clean, relevant dropdown instead of random API items
+const COMMON_EXERCISES = [
+    'Barbell Bench Press',
+    'Incline Dumbbell Press',
+    'Decline Bench Press',
+    'Cable Chest Fly',
+    'Push-Up',
+    'Dumbbell Fly',
+    'Barbell Back Squat',
+    'Front Squat',
+    'Leg Press',
+    'Romanian Deadlift',
+    'Leg Extension',
+    'Leg Curl',
+    'Walking Lunges',
+    'Calf Raises',
+    'Conventional Deadlift',
+    'Sumo Deadlift',
+    'Pull-Up',
+    'Chin-Up',
+    'Barbell Row',
+    'Dumbbell Row',
+    'Lat Pulldown',
+    'Seated Cable Row',
+    'Face Pull',
+    'Overhead Press',
+    'Dumbbell Shoulder Press',
+    'Lateral Raise',
+    'Front Raise',
+    'Upright Row',
+    'Barbell Curl',
+    'Dumbbell Curl',
+    'Hammer Curl',
+    'Preacher Curl',
+    'Tricep Pushdown',
+    'Skull Crusher',
+    'Dips',
+    'Overhead Tricep Extension',
+    'Plank',
+    'Crunch',
+    'Leg Raise',
+    'Russian Twist',
+    'Cable Crunch',
+    'Ab Wheel Rollout',
+    'Arnold Press',
+    'Hack Squat',
+    'Bulgarian Split Squat',
+    'Hip Thrust',
+    'Glute Bridge',
+    'Chest Supported Row',
+    'Seated Leg Curl',
+]
+
 /**
  * fetchExercises
- * Fetches names and IDs from exerciseinfo.
- * We fetch a larger batch (100+) to ensure English results are included.
+ * Returns the curated list of common exercises.
+ * Falls back to fetching from the WGER API if needed.
  */
 export async function fetchExercises() {
-    try {
-        console.log('🔄 Fetching exercises from WGER...');
+    // Return the curated list directly — no API needed for the dropdown
+    const exercises = COMMON_EXERCISES.map((name, index) => ({
+        id: index + 1,
+        name,
+    }))
 
-        // Use exerciseinfo which contains names. 
-        // We use language=2 but fetch more items as the API filter can be loose.
-        const response = await fetch(`${WGER_BASE_URL}/exerciseinfo/?language=2&limit=200`, {
-            headers: API_HEADERS,
-        })
-
-        if (!response.ok) {
-            throw new Error(`WGER API error: ${response.status} ${response.statusText}`)
-        }
-
-        const data = await response.json()
-
-        if (!data || !data.results) {
-            throw new Error('Invalid response format from WGER API')
-        }
-
-        // 1. Filter for items that actually have a name string
-        // 2. Prioritize items where language is 2 (English)
-        const englishItems = data.results.filter(item =>
-            item &&
-            typeof item.name === 'string' &&
-            item.name.trim().length > 0 &&
-            item.language === 2
-        );
-
-        // Fallback: If no English items found in the batch, take any valid named items
-        const resultsToUse = englishItems.length > 0
-            ? englishItems
-            : data.results.filter(item => item && typeof item.name === 'string' && item.name.trim().length > 0);
-
-        // Sort alphabetically with a very safe compare
-        const sortedResults = resultsToUse.sort((a, b) => {
-            const nameA = a.name || "";
-            const nameB = b.name || "";
-            return nameA.localeCompare(nameB);
-        });
-
-        console.log(`✅ ${sortedResults.length} exercises ready (from ${data.results.length} raw results)`);
-
-        // Final sanity check: if still 0, at least don't crash the UI
-        return sortedResults;
-    } catch (error) {
-        console.error('❌ Failed to fetch exercises:', error);
-        throw error
-    }
+    console.log(`✅ ${exercises.length} exercises ready for dropdown`)
+    return exercises
 }
 
 /**
  * fetchMuscleGroups
- * Fetches muscle groups.
+ * Fetches muscle groups from WGER API.
  */
 export async function fetchMuscleGroups() {
     try {

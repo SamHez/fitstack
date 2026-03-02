@@ -2,7 +2,7 @@
 
 import WorkoutForm from '../components/WorkoutForm'
 
-function AddWorkout() {
+function AddWorkout({ addWorkout }) {
     return (
         <div className="min-h-[80vh] flex items-center justify-center py-12 px-4">
             <div className="w-full">
@@ -16,7 +16,8 @@ function AddWorkout() {
                     </a>
                 </div>
 
-                <WorkoutForm />
+                {/* Pass the addWorkout function down to the form */}
+                <WorkoutForm addWorkout={addWorkout} />
             </div>
         </div>
     )
