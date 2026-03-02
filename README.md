@@ -1,51 +1,52 @@
-# FitStack – Fitness Tracker App
+# FitStack
 
-A React + Tailwind CSS fitness tracker app built as an ALX Frontend Capstone Project.
+<img src="./public/fitstack-logo.png" alt="FitStack Logo" width="100"/>
 
-## Tech Stack
-- **React 18** (via Vite)
-- **Tailwind CSS v3** (with custom brand colors and Inter font)
-- **WGER REST API** – public workout/exercise data
+FitStack is a student-level React + Tailwind CSS project designed as a clean, modern, and simple fitness tracker. It features a subtle "liquid glass" UI effect and provides users with an easy way to log workouts, track progress, and view their history.
 
-## Project Structure
+## 🌟 Features
 
-```
-src/
-├── components/
-│   ├── Navbar.jsx          # Top nav with liquid glass effect + logo
-│   ├── WorkoutForm.jsx     # Form to log workouts (Week 2+)
-│   ├── WorkoutList.jsx     # List of workouts (Week 2+)
-│   ├── WorkoutCard.jsx     # Individual workout card (Week 2+)
-│   ├── ProgressSummary.jsx # Progress stats (Week 2+)
-│   └── Footer.jsx          # Footer with WGER attribution
-├── pages/
-│   ├── Home.jsx            # Landing/dashboard page
-│   ├── AddWorkout.jsx      # Add a new workout page
-│   └── History.jsx         # Workout history page
-├── services/
-│   └── api.js              # WGER API service + Week 1 test
-├── App.jsx
-└── main.jsx
-```
+- **Workout Logging**: Easily log your exercises, sets, reps, and weight.
+- **Dynamic Stats**: Real-time progress tracking including Total Workouts, Total Sets, and Total Weight Lifted (Volume).
+- **Persistent Storage**: All your workout data is securely saved in your browser's local storage.
+- **Curated Exercise List**: A hand-picked selection of 50+ common gym exercises for a clean and relevant experience.
+- **Responsive Design**: Mobile-first, "liquid glass" aesthetic that looks great on all devices.
+- **History View**: Review all your past sessions at a glance.
 
-## WGER API Test (Week 1)
+## 🛠️ Tech Stack
 
-On app load, `src/services/api.js` calls:
-- `GET https://wger.de/api/v2/exercise/` – lists exercises in English
-- `GET https://wger.de/api/v2/muscle/` – lists muscle groups
+- **Core**: React 18
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **API**: [WGER Workout Manager](https://wger.de/en/software/api/) (Used for muscle group data and initial research)
+- **Persistence**: Browser LocalStorage
 
-Open the browser console to see the fetched data logged.  
-**No API key required** – WGER's public API is open.
+## 🚀 How to Run Locally
 
-## Getting Started
+### Prerequisites
+- [Node.js](https://nodejs.org/) (Version 16 or higher)
+- [npm](https://www.npmjs.com/) (usually comes with Node.js)
 
-```bash
-npm install
-npm run dev
-```
+### Setup Instructions
 
-## Week 1 Commits
-1. `initialize vite project`
-2. `install tailwind and configure`
-3. `create basic folder structure`
-4. `test wger api connection`
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/SamHez/fitstack.git
+   cd fitstack
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the Development Server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open in Browser**
+   Once the server is running, navigate to `http://localhost:5173` in your favorite web browser.
+
+---
+*Created as part of the ALX Frontend Capstone Project.*
