@@ -14,7 +14,7 @@ function Footer() {
 
                     <p className="text-sm text-gray-400">
                         © {new Date().getFullYear()} <span className="font-semibold text-green-600/80">FitStack</span>.
-                        Built for ALX Frontend Capstone.
+                        By Samuel Epodoi
                     </p>
 
                     <div className="flex gap-6 text-xs text-gray-400 font-medium">

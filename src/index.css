@@ -10,7 +10,30 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #f0fdf4;
+  background-color: #f8fafc;
   color: #1a1a2e;
   min-height: 100vh;
+  background-image: radial-gradient(#22c55e0a 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+@layer utilities {
+  .glass-card {
+    @apply backdrop-blur-xl bg-white/60 border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)];
+  }
+  
+  .glass-card-dark {
+    @apply backdrop-blur-xl bg-gray-900/80 border border-white/10 shadow-2xl;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-emerald-400;
+  }
+
+  .bg-hero-pattern {
+    background-image: 
+      radial-gradient(at 0% 0%, hsla(142, 69%, 58%, 0.1) 0px, transparent 50%),
+      radial-gradient(at 50% 0%, hsla(142, 70%, 45%, 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, hsla(142, 69%, 58%, 0.1) 0px, transparent 50%);
+  }
 }

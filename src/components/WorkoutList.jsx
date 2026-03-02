@@ -2,7 +2,7 @@
 
 import WorkoutCard from './WorkoutCard'
 
-function WorkoutList({ workouts = [] }) {
+function WorkoutList({ workouts = [], toggleWorkout }) {
     if (workouts.length === 0) {
         return (
             <div className="text-center py-12 text-gray-400 font-medium italic">
@@ -14,7 +14,11 @@ function WorkoutList({ workouts = [] }) {
     return (
         <div className="space-y-4">
             {workouts.map((workout) => (
-                <WorkoutCard key={workout.id} workout={workout} />
+                <WorkoutCard
+                    key={workout.id}
+                    workout={workout}
+                    toggleWorkout={toggleWorkout}
+                />
             ))}
         </div>
     )

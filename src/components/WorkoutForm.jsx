@@ -12,6 +12,7 @@ function WorkoutForm({ addWorkout }) {
     const [sets, setSets] = useState('')
     const [reps, setReps] = useState('')
     const [weight, setWeight] = useState('')
+    const [date, setDate] = useState(new Date().toISOString().split('T')[0]) // YYYY-MM-DD
 
     // Fetch exercises from API on mount
     useEffect(() => {
@@ -46,7 +47,8 @@ function WorkoutForm({ addWorkout }) {
             sets: parseInt(sets),
             reps: parseInt(reps),
             weight: parseFloat(weight),
-            date: new Date().toLocaleDateString(),
+            date: new Date(date).toLocaleDateString(),
+            completed: false, // Starts as a plan
         }
 
         // Add to global state (updates App.jsx state)
@@ -103,6 +105,20 @@ function WorkoutForm({ addWorkout }) {
                         </div>
                     </div>
                     {error && <p className="text-red-500 text-xs mt-2 ml-1 font-medium">{error}</p>}
+                </div>
+
+                {/* Date Input */}
+                <div>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                        Workout Date
+                    </label>
+                    <input
+                        type="date"
+                        className="w-full bg-white/50 border border-gray-100 rounded-2xl px-5 py-4 text-gray-700 font-bold focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all outline-none"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        required
+                    />
                 </div>
 
                 {/* Stats Grid */}

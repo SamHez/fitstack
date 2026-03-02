@@ -47,14 +47,20 @@ function App() {
         setWorkouts(prev => [newWorkout, ...prev])
     }
 
+    const toggleWorkout = (id) => {
+        setWorkouts(prev => prev.map(w =>
+            w.id === id ? { ...w, completed: !w.completed } : w
+        ))
+    }
+
     const renderPage = () => {
         switch (currentPath) {
             case '/add-workout':
                 return <AddWorkout addWorkout={addWorkout} />
             case '/history':
-                return <History workouts={workouts} />
+                return <History workouts={workouts} toggleWorkout={toggleWorkout} />
             default:
-                return <Home workouts={workouts} />
+                return <Home workouts={workouts} toggleWorkout={toggleWorkout} />
         }
     }
 
