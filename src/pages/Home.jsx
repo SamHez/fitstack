@@ -15,7 +15,7 @@ function Home({ workouts = [], toggleWorkout }) {
                 <div className="absolute inset-0 bg-gradient-to-br from-green-600/20 via-emerald-600/10 to-transparent pointer-events-none"></div>
                 <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-[600px] h-[600px] bg-green-500/10 rounded-full blur-[140px]"></div>
 
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-8 pb-32 md:pb-48">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-12 pb-32 md:pb-48">
                     <div className="flex flex-col md:flex-row items-center gap-12">
                         <div className="flex-1 text-center md:text-left">
                             <h1 className="text-5xl md:text-7xl font-black text-white mb-6 leading-[0.9] tracking-tighter">
