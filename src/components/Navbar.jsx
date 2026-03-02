@@ -18,7 +18,7 @@ function Navbar() {
                     </div>
 
                     {/* Nav Links */}
-                    <div className="flex items-center gap-4 sm:gap-8">
+                    <div className="flex items-center gap-3 sm:gap-8">
                         <a href="/" className="text-sm font-semibold text-gray-700 hover:text-green-600 transition-colors">
                             Home
                         </a>

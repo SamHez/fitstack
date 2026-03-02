@@ -106,7 +106,7 @@ function WorkoutForm({ addWorkout }) {
                 </div>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                         <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1 text-center">
                             Sets
