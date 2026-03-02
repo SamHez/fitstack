@@ -3,15 +3,13 @@
 function ProgressSummary({ workouts = [] }) {
     // Real stats calculation
     const totalWorkouts = workouts.length
-    const totalWeight = workouts.reduce((acc, curr) => acc + (curr.weight * curr.sets * curr.reps), 0)
-
-    // Simple streak calculation (mocked as constant for now, could be dynamic)
-    const streak = totalWorkouts > 0 ? "4 days" : "0 days"
+    const totalSets = workouts.reduce((acc, curr) => acc + (curr.sets || 0), 0)
+    const totalVolume = workouts.reduce((acc, curr) => acc + ((curr.weight || 0) * (curr.sets || 0) * (curr.reps || 0)), 0)
 
     const stats = [
         { label: 'Total Workouts', value: totalWorkouts, color: 'text-green-600' },
-        { label: 'Total Volume', value: `${Math.round(totalWeight)}kg`, color: 'text-blue-600' },
-        { label: 'Streak', value: streak, color: 'text-orange-500' },
+        { label: 'Total Sets', value: totalSets, color: 'text-blue-600' },
+        { label: 'Total Volume', value: `${Math.round(totalVolume).toLocaleString()}kg`, color: 'text-orange-500' },
     ]
 
     return (
